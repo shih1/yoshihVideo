@@ -1,6 +1,11 @@
 import cv2
 import numpy as np
 import os
+import sys
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
 from config import FLOW_LUCAS_KANADE, FLOW_VISUALIZATION, OUTPUT_DIR
 
 def analyze_lucas_kanade(frames, metadata):

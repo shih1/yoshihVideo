@@ -1,9 +1,9 @@
-# Configuration file for water analysis framework
+# Configuration file for CV Analysis Toolkit
 
 # Video settings
-INPUT_VIDEO = 'water_video.mp4'
+INPUT_VIDEO = 'penguin_trim.mp4'
 MAX_FRAMES = 300  # Maximum frames to process (set to None for entire video)
-OUTPUT_DIR = 'output'
+OUTPUT_DIR = 'output_penguin'
 
 # Preprocessing settings
 STABILIZATION = {
@@ -66,4 +66,26 @@ TEXTURE_ANALYSIS = {
     'block_size': 32,
     'gabor_frequencies': [0.1, 0.2, 0.3],
     'gabor_orientations': [0, 45, 90, 135]
+}
+
+# Pose estimation settings
+POSE_ESTIMATION = {
+    'min_detection_confidence': 0.5,
+    'min_tracking_confidence': 0.5,
+    'model_complexity': 1,  # 0=Lite, 1=Full, 2=Heavy
+    'enable_segmentation': True,
+    'smooth_landmarks': True
+}
+
+HAND_TRACKING = {
+    'max_num_hands': 2,
+    'min_detection_confidence': 0.5,
+    'min_tracking_confidence': 0.5
+}
+
+FACE_MESH = {
+    'max_num_faces': 1,
+    'refine_landmarks': True,
+    'min_detection_confidence': 0.5,
+    'min_tracking_confidence': 0.5
 }
