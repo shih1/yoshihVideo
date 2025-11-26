@@ -3,7 +3,7 @@
 # Video settings
 INPUT_VIDEO = 'name.mp4'
 MAX_FRAMES = 300  # Maximum frames to process (set to None for entire video)
-OUTPUT_DIR = 'output_name2'
+OUTPUT_DIR = 'output_name_3'
 
 # Preprocessing settings
 STABILIZATION = {
@@ -98,4 +98,14 @@ FEATURE_TRACKING = {
     'akaze_threshold': 0.001,  # AKAZE detection threshold (lower = more features)
     'match_threshold': 50,     # Maximum distance for good matches
     'max_display_matches': 100 # Maximum matches to draw (for clarity)
+}
+
+# YOLO Object Detection Settings
+YOLO_DETECTION = {
+    'weights_path': 'yolo/yolov4-tiny.weights',  # or yolov4.weights for better accuracy
+    'config_path': 'yolo/yolov4-tiny.cfg',       # or yolov4.cfg
+    'names_path': 'yolo/coco.names',
+    'confidence_threshold': 0.2,    # Minimum confidence to show detection
+    'nms_threshold': 0.4,           # Non-maximum suppression threshold
+    'use_gpu': False                # Set to True if you have CUDA-enabled GPU
 }

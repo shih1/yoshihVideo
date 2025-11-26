@@ -24,6 +24,7 @@ from modules.pose.human_pose import analyze_human_pose
 from modules.pose.hand_tracking import analyze_hand_tracking
 from modules.pose.face_mesh import analyze_face_mesh
 from modules.pose.feature_tracking import analyze_feature_tracking
+from modules.detection.yolo_detection import analyze_yolo_detection
 
 
 def print_banner():
@@ -33,6 +34,7 @@ def print_banner():
     print("  Modular framework for video analysis")
     print("=" * 70)
     print()
+
 def print_menu():
     """Print analysis options menu"""
     print("\n" + "=" * 70)
@@ -53,13 +55,17 @@ def print_menu():
     print("  7. Human Pose Estimation (full body tracking)")
     print("  8. Hand Tracking (hand landmarks & gestures)")
     print("  9. Face Mesh (facial landmarks)")
-    print("  10. Feature Tracking - ORB/AKAZE (anime-friendly)")  # NEW
+    print("  10. Feature Tracking - ORB/AKAZE (anime-friendly)")
+    
+    print("\n🔍 OBJECT DETECTION")  # NEW SECTION
+    print("  11. YOLO Detection (finds & labels objects)")
     
     print("\n⚡ BATCH OPERATIONS")
-    print("  11. Run ALL Flow analyses")      # Updated numbers
-    print("  12. Run ALL Visual analyses")    # Updated numbers
-    print("  13. Run ALL Pose analyses")      # Updated numbers
-    print("  14. Run EVERYTHING")             # Updated numbers
+    print("  12. Run ALL Flow analyses")
+    print("  13. Run ALL Visual analyses")
+    print("  14. Run ALL Pose analyses")
+    print("  15. Run ALL Detection analyses")  # NEW
+    print("  16. Run EVERYTHING")
     
     print("\n  0. Exit")
     print("=" * 70)
@@ -82,7 +88,10 @@ def get_analysis_categories():
             '7': ('Human Pose Estimation', analyze_human_pose),
             '8': ('Hand Tracking', analyze_hand_tracking),
             '9': ('Face Mesh', analyze_face_mesh),
-            '10': ('Feature Tracking (ORB/AKAZE)', analyze_feature_tracking)  # NEW
+            '10': ('Feature Tracking (ORB/AKAZE)', analyze_feature_tracking)
+        },
+        'detection': {  # NEW CATEGORY
+            '11': ('YOLO Object Detection', analyze_yolo_detection)
         }
     }
 
@@ -124,8 +133,18 @@ def run_analysis(choice, frames, metadata):
             outputs.append(output)
             print(f"✓ {name} complete!")
         return outputs
+   # Batch operations
+    elif choice == '12':  # All Flow
+        print("\nRunning ALL Flow analyses...")
+        outputs = []
+        for name, func in categories['flow'].values():
+            print(f"\nStarting {name}...")
+            output = func(frames, metadata)
+            outputs.append(output)
+            print(f"✓ {name} complete!")
+        return outputs
     
-    elif choice == '12':  # All Visual (was '11')
+    elif choice == '13':  # All Visual
         print("\nRunning ALL Visual analyses...")
         outputs = []
         for name, func in categories['visual'].values():
@@ -135,7 +154,7 @@ def run_analysis(choice, frames, metadata):
             print(f"✓ {name} complete!")
         return outputs
     
-    elif choice == '13':  # All Pose (was '12')
+    elif choice == '14':  # All Pose
         print("\nRunning ALL Pose analyses...")
         outputs = []
         for name, func in categories['pose'].values():
@@ -145,7 +164,17 @@ def run_analysis(choice, frames, metadata):
             print(f"✓ {name} complete!")
         return outputs
     
-    elif choice == '14':  # Everything (was '13')
+    elif choice == '15':  # All Detection (NEW)
+        print("\nRunning ALL Detection analyses...")
+        outputs = []
+        for name, func in categories['detection'].values():
+            print(f"\nStarting {name}...")
+            output = func(frames, metadata)
+            outputs.append(output)
+            print(f"✓ {name} complete!")
+        return outputs
+    
+    elif choice == '16':  # Everything
         print("\nRunning EVERYTHING...")
         outputs = []
         for category in categories.values():
@@ -201,7 +230,8 @@ def main():
             print("\nExiting. Thank you for using the CV Analysis Toolkit!")
             sys.exit(0)
         
-        valid_choices = [str(i) for i in range(15)]  # Was range(14), now range(15)
+        valid_choices = [str(i) for i in range(17)]  # Updated from 15 to 17
+        
         if choice not in valid_choices:
             print("\n⚠ Invalid choice. Please select 0-13.")
             continue
