@@ -89,3 +89,13 @@ FACE_MESH = {
     'min_detection_confidence': 0.5,
     'min_tracking_confidence': 0.5
 }
+
+# Feature Tracking (ORB/AKAZE) Settings
+FEATURE_TRACKING = {
+    'use_orb': True,           # Enable ORB detector
+    'use_akaze': True,         # Enable AKAZE detector
+    'max_features': 500,       # Maximum features to detect
+    'akaze_threshold': 0.001,  # AKAZE detection threshold (lower = more features)
+    'match_threshold': 50,     # Maximum distance for good matches
+    'max_display_matches': 100 # Maximum matches to draw (for clarity)
+}

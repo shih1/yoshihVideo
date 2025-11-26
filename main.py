@@ -23,6 +23,8 @@ from modules.visual.texture_analysis import analyze_texture
 from modules.pose.human_pose import analyze_human_pose
 from modules.pose.hand_tracking import analyze_hand_tracking
 from modules.pose.face_mesh import analyze_face_mesh
+from modules.pose.feature_tracking import analyze_feature_tracking
+
 
 def print_banner():
     """Print welcome banner"""
@@ -31,7 +33,6 @@ def print_banner():
     print("  Modular framework for video analysis")
     print("=" * 70)
     print()
-
 def print_menu():
     """Print analysis options menu"""
     print("\n" + "=" * 70)
@@ -52,12 +53,13 @@ def print_menu():
     print("  7. Human Pose Estimation (full body tracking)")
     print("  8. Hand Tracking (hand landmarks & gestures)")
     print("  9. Face Mesh (facial landmarks)")
+    print("  10. Feature Tracking - ORB/AKAZE (anime-friendly)")  # NEW
     
     print("\n⚡ BATCH OPERATIONS")
-    print("  10. Run ALL Flow analyses")
-    print("  11. Run ALL Visual analyses")
-    print("  12. Run ALL Pose analyses")
-    print("  13. Run EVERYTHING")
+    print("  11. Run ALL Flow analyses")      # Updated numbers
+    print("  12. Run ALL Visual analyses")    # Updated numbers
+    print("  13. Run ALL Pose analyses")      # Updated numbers
+    print("  14. Run EVERYTHING")             # Updated numbers
     
     print("\n  0. Exit")
     print("=" * 70)
@@ -79,7 +81,8 @@ def get_analysis_categories():
         'pose': {
             '7': ('Human Pose Estimation', analyze_human_pose),
             '8': ('Hand Tracking', analyze_hand_tracking),
-            '9': ('Face Mesh', analyze_face_mesh)
+            '9': ('Face Mesh', analyze_face_mesh),
+            '10': ('Feature Tracking (ORB/AKAZE)', analyze_feature_tracking)  # NEW
         }
     }
 
@@ -111,8 +114,18 @@ def run_analysis(choice, frames, metadata):
             outputs.append(output)
             print(f"✓ {name} complete!")
         return outputs
+    # Batch operations
+    elif choice == '11':  # All Flow (was '10')
+        print("\nRunning ALL Flow analyses...")
+        outputs = []
+        for name, func in categories['flow'].values():
+            print(f"\nStarting {name}...")
+            output = func(frames, metadata)
+            outputs.append(output)
+            print(f"✓ {name} complete!")
+        return outputs
     
-    elif choice == '11':  # All Visual
+    elif choice == '12':  # All Visual (was '11')
         print("\nRunning ALL Visual analyses...")
         outputs = []
         for name, func in categories['visual'].values():
@@ -122,7 +135,7 @@ def run_analysis(choice, frames, metadata):
             print(f"✓ {name} complete!")
         return outputs
     
-    elif choice == '12':  # All Pose
+    elif choice == '13':  # All Pose (was '12')
         print("\nRunning ALL Pose analyses...")
         outputs = []
         for name, func in categories['pose'].values():
@@ -132,7 +145,7 @@ def run_analysis(choice, frames, metadata):
             print(f"✓ {name} complete!")
         return outputs
     
-    elif choice == '13':  # Everything
+    elif choice == '14':  # Everything (was '13')
         print("\nRunning EVERYTHING...")
         outputs = []
         for category in categories.values():
@@ -188,7 +201,7 @@ def main():
             print("\nExiting. Thank you for using the CV Analysis Toolkit!")
             sys.exit(0)
         
-        valid_choices = [str(i) for i in range(14)]
+        valid_choices = [str(i) for i in range(15)]  # Was range(14), now range(15)
         if choice not in valid_choices:
             print("\n⚠ Invalid choice. Please select 0-13.")
             continue
