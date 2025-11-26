@@ -1,9 +1,9 @@
 # Configuration file for CV Analysis Toolkit
 
 # Video settings
-INPUT_VIDEO = 'penguin_trim.mp4'
+INPUT_VIDEO = 'name.mp4'
 MAX_FRAMES = 300  # Maximum frames to process (set to None for entire video)
-OUTPUT_DIR = 'output_penguin'
+OUTPUT_DIR = 'output_name2'
 
 # Preprocessing settings
 STABILIZATION = {

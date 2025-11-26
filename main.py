@@ -7,7 +7,7 @@ Main entry point for analyzing any type of video
 import sys
 import os
 from config import INPUT_VIDEO, MAX_FRAMES
-from preprocessing import preprocess_video
+from preprocessing import preprocess_video, load_raw_video 
 
 # Import flow modules
 from modules.flow.lucas_kanade import analyze_lucas_kanade
@@ -174,6 +174,10 @@ def main():
         print("\nPreprocessing video...")
         frames, metadata = preprocess_video(INPUT_VIDEO, MAX_FRAMES)
         print("\n✓ Preprocessing complete!")
+    else:
+        print("\nLoading raw video (no preprocessing)...")
+        frames, metadata = load_raw_video(INPUT_VIDEO, MAX_FRAMES)
+        print("\n✓ Raw video loaded!")
     
     # Main menu loop
     while True:

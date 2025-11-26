@@ -2,9 +2,12 @@ import cv2
 import numpy as np
 from config import STABILIZATION, COLOR_ENHANCEMENT
 
-def load_video(video_path, max_frames=None):
-    """Load video and return frames with metadata"""
+def load_raw_video(video_path, max_frames=None):
+    """Load video frames WITHOUT any preprocessing - just raw extraction"""
     cap = cv2.VideoCapture(video_path)
+    
+    if not cap.isOpened():
+        raise ValueError(f"Could not open video: {video_path}")
     
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -14,7 +17,7 @@ def load_video(video_path, max_frames=None):
     frames = []
     frame_count = 0
     
-    print(f"Loading video: {width}x{height} @ {fps}fps")
+    print(f"Loading raw video: {width}x{height} @ {fps}fps")
     
     while True:
         ret, frame = cap.read()
@@ -37,7 +40,8 @@ def load_video(video_path, max_frames=None):
         'fps': fps,
         'width': width,
         'height': height,
-        'total_frames': len(frames)
+        'total_frames': len(frames),
+        'preprocessed': False
     }
     
     return frames, metadata
@@ -171,9 +175,12 @@ def enhance_frames(frames):
     return enhanced_frames
 
 def preprocess_video(video_path, max_frames=None):
-    """Complete preprocessing pipeline"""
-    frames, metadata = load_video(video_path, max_frames)
+    """Complete preprocessing pipeline with stabilization and enhancement"""
+    frames, metadata = load_raw_video(video_path, max_frames)
     frames = stabilize_video(frames)
     frames = enhance_frames(frames)
+    
+    # Update metadata to indicate preprocessing was applied
+    metadata['preprocessed'] = True
     
     return frames, metadata
